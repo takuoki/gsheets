@@ -28,10 +28,15 @@ Currently, only the read function is supported.
 
 ```go
 func (*Client) GetSheetNames(ctx context.Context, spreadsheetID string) ([]string, error)
+```
+
+```go
 func (*Client) GetSheet(ctx context.Context, spreadsheetID, sheetName string) (Sheet, error)
 ```
 
 ### Manipulate Sheet Values
+
+If the index is out of range, `Value` method returns empty string.
 
 ```go
 s, err := c.GetSheet(ctx, "spreadsheetID", "sheetName")
