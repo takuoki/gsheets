@@ -27,6 +27,10 @@ client, err := gsheets.NewForCLI(ctx, "credentials.json")
 Currently, only the read function is supported.
 
 ```go
+func (*Client) GetTitle(ctx context.Context, spreadsheetID string) (string, error)
+```
+
+```go
 func (*Client) GetSheetNames(ctx context.Context, spreadsheetID string) ([]string, error)
 ```
 
