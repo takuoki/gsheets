@@ -26,7 +26,7 @@ ctx := gsheets.WithCache(ctx)
 ### Create New Client
 
 ```go
-c, err := gsheets.New(ctx, `{"credentials": "json"}`, `{"token": "json"}`)
+client, err := gsheets.New(ctx, `{"credentials": "json"}`, `{"token": "json"}`)
 ```
 
 ```go
@@ -54,7 +54,7 @@ func (*Client) GetSheet(ctx context.Context, spreadsheetID, sheetName string) (S
 If the index is out of range, `Value` method returns empty string.
 
 ```go
-s, err := c.GetSheet(ctx, "spreadsheetID", "sheetName")
+s, err := client.GetSheet(ctx, "spreadsheetID", "sheetName")
 if err != nil {
   return err
 }
