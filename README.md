@@ -1,5 +1,8 @@
 # gsheets
 
+[![CircleCI](https://circleci.com/gh/takuoki/gsheets/tree/master.svg?style=shield&circle-token=30f6e95108024e7a0562f630c69209783e5086ec)](https://circleci.com/gh/takuoki/gsheets/tree/master)
+[![GoDoc](https://godoc.org/github.com/takuoki/gsheets?status.svg)](https://godoc.org/github.com/takuoki/gsheets)
+
 A golang wrapper package for `golang.org/x/oauth2` and `google.golang.org/api/sheets/v4`.
 
 **!!! Only for personal use !!!**
