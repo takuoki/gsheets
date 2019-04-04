@@ -11,10 +11,10 @@ jobs:
     executor: go-111
     steps:
       - checkout
-      - run:
-          name: Set env
-          command: |
-            echo 'export GO111MODULE=on' >> $BASH_ENV
+      # - run:
+      #     name: Set env
+      #     command: |
+      #       echo 'export GO111MODULE=on' >> $BASH_ENV
       # golint
       - restore_cache:
           keys:
