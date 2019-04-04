@@ -15,16 +15,12 @@ go get github.com/takuoki/gsheets
 
 ## Usage
 
-### Create Context
+### Create Cache
 
 If you want to use the cache, initialize the context.
 
 ```go
-ctx := gsheets.NewContext()
-```
-
-```go
-ctx := gsheets.NewContextWithParent(ctx)
+ctx := gsheets.WithCache(ctx)
 ```
 
 ### Create New Client
