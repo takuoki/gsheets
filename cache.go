@@ -18,16 +18,10 @@ type gsCache struct {
 	m     sync.RWMutex
 }
 
-// NewContext returns a new context of gsheets.
+// WithCache returns a context with gsheets cache.
 // If you want to use the cache, initialize the context.
-func NewContext() context.Context {
-	return NewContextWithParent(context.Background())
-}
-
-// NewContextWithParent returns a new context of gsheets with parent context.
-// If you want to use the cache, initialize the context.
-func NewContextWithParent(parent context.Context) context.Context {
-	return context.WithValue(parent, cacheKey, &gsCache{
+func WithCache(ctx context.Context) context.Context {
+	return context.WithValue(ctx, cacheKey, &gsCache{
 		cache: map[string]interface{}{},
 	})
 }

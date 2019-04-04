@@ -1,6 +1,7 @@
 package gsheets_test
 
 import (
+	"context"
 	"fmt"
 	"os"
 
@@ -11,7 +12,7 @@ func Example() {
 
 	spreadsheetID := "1-kaYsJxISA2MJMKtTIzWwOFsMm9Wp21U3Nbqnfru65w"
 
-	ctx := gsheets.NewContext()
+	ctx := gsheets.WithCache(context.Background())
 	client, err := gsheets.New(ctx,
 		os.Getenv("GOOGLE_API_CREDENTIALS"), os.Getenv("GOOGLE_API_TOKEN"))
 
