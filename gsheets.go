@@ -1,3 +1,5 @@
+// Package gsheets is a wrapper package for `golang.org/x/oauth2` and `google.golang.org/api/sheets/v4`.
+// This package is supported only for personal use.
 package gsheets
 
 import (
@@ -7,10 +9,14 @@ import (
 
 // GetTitle returns sheet title.
 func (c *Client) GetTitle(ctx context.Context, spreadsheetID string) (string, error) {
-
-	resp, err := c.srv.Spreadsheets.Get(spreadsheetID).Do()
-	if err != nil {
-		return "", fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+	var err error
+	resp, _ := getSpreadsheetsCache(ctx, spreadsheetID)
+	if resp == nil {
+		resp, err = c.srv.Spreadsheets.Get(spreadsheetID).Do()
+		if err != nil {
+			return "", fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+		}
+		setCache(ctx, resp, srvNameSpreadsheets, spreadsheetID)
 	}
 
 	return resp.Properties.Title, nil
@@ -18,10 +24,14 @@ func (c *Client) GetTitle(ctx context.Context, spreadsheetID string) (string, er
 
 // GetSheetNames returns sheet name list.
 func (c *Client) GetSheetNames(ctx context.Context, spreadsheetID string) ([]string, error) {
-
-	resp, err := c.srv.Spreadsheets.Get(spreadsheetID).Do()
-	if err != nil {
-		return nil, fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+	var err error
+	resp, _ := getSpreadsheetsCache(ctx, spreadsheetID)
+	if resp == nil {
+		resp, err = c.srv.Spreadsheets.Get(spreadsheetID).Do()
+		if err != nil {
+			return nil, fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+		}
+		setCache(ctx, resp, srvNameSpreadsheets, spreadsheetID)
 	}
 
 	ss := []string{}
@@ -34,10 +44,14 @@ func (c *Client) GetSheetNames(ctx context.Context, spreadsheetID string) ([]str
 
 // GetSheet returns a Sheet.
 func (c *Client) GetSheet(ctx context.Context, spreadsheetID, sheetName string) (*Sheet, error) {
-
-	resp, err := c.srv.Spreadsheets.Values.Get(spreadsheetID, sheetName).Do()
-	if err != nil {
-		return nil, fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+	var err error
+	resp, _ := getSpreadsheetsValuesCache(ctx, spreadsheetID, sheetName)
+	if resp == nil {
+		resp, err = c.srv.Spreadsheets.Values.Get(spreadsheetID, sheetName).Do()
+		if err != nil {
+			return nil, fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+		}
+		setCache(ctx, resp, srvNameSpreadsheetsValues, spreadsheetID, sheetName)
 	}
 
 	return &Sheet{values: resp.Values}, nil
