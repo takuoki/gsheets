@@ -4,6 +4,7 @@
 [![GoDoc](https://godoc.org/github.com/takuoki/gsheets?status.svg)](https://godoc.org/github.com/takuoki/gsheets)
 
 A golang wrapper package for `golang.org/x/oauth2` and `google.golang.org/api/sheets/v4`.
+You can easily manipulate spreadsheets.
 
 **!!! Only for personal use !!!**
 
@@ -12,6 +13,11 @@ A golang wrapper package for `golang.org/x/oauth2` and `google.golang.org/api/sh
 ```bash
 go get github.com/takuoki/gsheets
 ```
+
+## Requirement
+
+This package uses Google OAuth2.0. So before executing tool, you have to prepare credentials.json.
+See [Go Quickstart](https://developers.google.com/sheets/api/quickstart/go), or [Blog (Japanese)](https://medium.com/veltra-engineering/how-to-use-google-sheets-api-with-golang-9e50ee9e0abc) for the details.
 
 ## Usage
 
