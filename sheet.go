@@ -1,10 +1,20 @@
 package gsheets
 
-import "fmt"
+import (
+	"fmt"
+	"testing"
+)
 
 // Sheet is a sheet of google spreadsheets.
 type Sheet struct {
 	values [][]interface{}
+}
+
+// NewSheet returns a new sheet instance with argument values.
+// This function is for testing.
+func NewSheet(t *testing.T, values [][]interface{}) *Sheet {
+	t.Helper()
+	return &Sheet{values: values}
 }
 
 // Rows returns rows which the sheet has.
