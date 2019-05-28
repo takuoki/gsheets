@@ -26,6 +26,7 @@ See [Go Quickstart](https://developers.google.com/sheets/api/quickstart/go), or 
 ### Create Cache
 
 If you want to use the cache, initialize the context.
+If you are updating sheets, you should not use Cache.
 
 ```go
 ctx := gsheets.WithCache(ctx)
@@ -41,9 +42,13 @@ client, err := gsheets.New(ctx, `{"credentials": "json"}`, `{"token": "json"}`)
 client, err := gsheets.NewForCLI(ctx, "credentials.json")
 ```
 
-### Get Sheet Information
+If you are updating sheets, create a client with `ClientWritable` option.
 
-Currently, only the read function is supported.
+```go
+client, err := gsheets.New(ctx, `{"credentials": "json"}`, `{"token": "json"}`, gsheets.ClientWritable())
+```
+
+### Get Sheet Information
 
 ```go
 func (*Client) GetTitle(ctx context.Context, spreadsheetID string) (string, error)
@@ -55,6 +60,16 @@ func (*Client) GetSheetNames(ctx context.Context, spreadsheetID string) ([]strin
 
 ```go
 func (*Client) GetSheet(ctx context.Context, spreadsheetID, sheetName string) (Sheet, error)
+```
+
+### Update Sheet Values
+
+```go
+func (c *Client) Update(ctx context.Context, spreadsheetID, sheetName string, rowNo int, values []interface{}) error
+```
+
+```go
+func (c *Client) BatchUpdate(ctx context.Context, spreadsheetID string, updateValues ...UpdateValue) error
 ```
 
 ### Manipulate Sheet Values

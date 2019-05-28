@@ -45,7 +45,7 @@ func Example() {
 	// sheetName: bar, A1: This value is written in A1 of the bar sheet.
 }
 
-func ExampleBatchUpdate() {
+func ExampleClient_BatchUpdate() {
 
 	// https://docs.google.com/spreadsheets/d/1-kaYsJxISA2MJMKtTIzWwOFsMm9Wp21U3Nbqnfru65w
 	spreadsheetID := "1-kaYsJxISA2MJMKtTIzWwOFsMm9Wp21U3Nbqnfru65w"
