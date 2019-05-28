@@ -44,24 +44,7 @@ func New(ctx context.Context, credentials, token string, opts ...ClientOption) (
 		client = opt(client)
 	}
 
-	config, err := google.ConfigFromJSON([]byte(credentials), client.scope)
-	if err != nil {
-		return nil, fmt.Errorf("Unable to parse json to config: %v", err)
-	}
-	tok := &oauth2.Token{}
-	if err := json.NewDecoder(strings.NewReader(token)).Decode(tok); err != nil {
-		return nil, fmt.Errorf("Unable to parse json to token: %v", err)
-	}
-	srv, err := sheets.New(config.Client(ctx, tok))
-	if err != nil {
-		return nil, fmt.Errorf("Unable to retrieve Sheets client: %v", err)
-	}
-
-	client.credentials = credentials
-	client.token = token
-	client.srv = srv
-
-	return client, nil
+	return new(ctx, credentials, token, client)
 }
 
 func new(ctx context.Context, credentials, token string, initialClient *Client) (*Client, error) {
