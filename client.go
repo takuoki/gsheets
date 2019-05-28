@@ -18,12 +18,38 @@ import (
 type Client struct {
 	credentials, token string
 	srv                *sheets.Service
+
+	scope string
+}
+
+// ClientOption is an option function.
+type ClientOption func(c *Client) *Client
+
+// ClientWritable is an option to change client writable.
+func ClientWritable() func(c *Client) *Client {
+	return func(c *Client) *Client {
+		c.scope = "https://www.googleapis.com/auth/spreadsheets"
+		return c
+	}
 }
 
 // New returns a gsheets client.
-func New(ctx context.Context, credentials, token string) (*Client, error) {
+func New(ctx context.Context, credentials, token string, opts ...ClientOption) (*Client, error) {
 
-	config, err := google.ConfigFromJSON([]byte(credentials), "https://www.googleapis.com/auth/spreadsheets.readonly")
+	client := &Client{
+		scope: "https://www.googleapis.com/auth/spreadsheets.readonly",
+	}
+
+	for _, opt := range opts {
+		client = opt(client)
+	}
+
+	return new(ctx, credentials, token, client)
+}
+
+func new(ctx context.Context, credentials, token string, initialClient *Client) (*Client, error) {
+
+	config, err := google.ConfigFromJSON([]byte(credentials), initialClient.scope)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to parse json to config: %v", err)
 	}
@@ -36,16 +62,24 @@ func New(ctx context.Context, credentials, token string) (*Client, error) {
 		return nil, fmt.Errorf("Unable to retrieve Sheets client: %v", err)
 	}
 
-	return &Client{
-		credentials: credentials,
-		token:       token,
-		srv:         srv,
-	}, nil
+	initialClient.credentials = credentials
+	initialClient.token = token
+	initialClient.srv = srv
+
+	return initialClient, nil
 }
 
 // NewForCLI returns a gsheets client.
 // This function is intended for CLI tools.
-func NewForCLI(ctx context.Context, authFile string) (*Client, error) {
+func NewForCLI(ctx context.Context, authFile string, opts ...ClientOption) (*Client, error) {
+
+	client := &Client{
+		scope: "https://www.googleapis.com/auth/spreadsheets.readonly",
+	}
+
+	for _, opt := range opts {
+		client = opt(client)
+	}
 
 	cb, err := ioutil.ReadFile(authFile)
 	if err != nil {
@@ -60,7 +94,7 @@ func NewForCLI(ctx context.Context, authFile string) (*Client, error) {
 		token = string(tb)
 	} else {
 		// if there are no token file, get from Web
-		config, err := google.ConfigFromJSON(cb, "https://www.googleapis.com/auth/spreadsheets.readonly")
+		config, err := google.ConfigFromJSON(cb, "https://www.googleapis.com/auth/spreadsheets")
 		if err != nil {
 			return nil, fmt.Errorf("Unable to parse client secret file to config: %v", err)
 		}
@@ -93,5 +127,5 @@ func NewForCLI(ctx context.Context, authFile string) (*Client, error) {
 		fmt.Fprint(f, token)
 	}
 
-	return New(ctx, string(cb), token)
+	return new(ctx, string(cb), token, client)
 }
