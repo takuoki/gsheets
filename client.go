@@ -94,7 +94,7 @@ func NewForCLI(ctx context.Context, authFile string, opts ...ClientOption) (*Cli
 		token = string(tb)
 	} else {
 		// if there are no token file, get from Web
-		config, err := google.ConfigFromJSON(cb, "https://www.googleapis.com/auth/spreadsheets")
+		config, err := google.ConfigFromJSON(cb, client.scope)
 		if err != nil {
 			return nil, fmt.Errorf("Unable to parse client secret file to config: %v", err)
 		}
