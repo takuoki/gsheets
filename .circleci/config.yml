@@ -19,7 +19,7 @@ jobs:
             echo '--- echo $HOME ---'
             echo $HOME
             pwd
-            ls -la
+            ls ~/ -la
       - checkout
       # golint
       - restore_cache:
