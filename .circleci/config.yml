@@ -13,6 +13,11 @@ jobs:
   build:
     executor: go-116
     steps:
+      - run:
+          name: Check
+          command: |
+            echo "--- echo $HOME ---"
+            echo $HOME
       - checkout
       # golint
       - restore_cache:
