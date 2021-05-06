@@ -30,7 +30,7 @@ func setCache(ctx context.Context, resp interface{}, srvName serviceName, keys .
 	v := ctx.Value(cacheKey)
 	c, ok := v.(*gsCache)
 	if !ok {
-		return errors.New("The context has not been initialized for gsheets package")
+		return errors.New("the context has not been initialized for gsheets package")
 	}
 	k := strings.Join(append([]string{string(srvName)}, keys...), "-")
 	c.m.Lock()
@@ -43,7 +43,7 @@ func getCache(ctx context.Context, srvName serviceName, keys ...string) (interfa
 	v := ctx.Value(cacheKey)
 	c, ok := v.(*gsCache)
 	if !ok {
-		return nil, errors.New("The context has not been initialized for gsheets package")
+		return nil, errors.New("the context has not been initialized for gsheets package")
 	}
 	k := strings.Join(append([]string{string(srvName)}, keys...), "-")
 	c.m.RLock()

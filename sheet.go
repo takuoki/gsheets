@@ -3,6 +3,8 @@ package gsheets
 import (
 	"fmt"
 	"testing"
+
+	"github.com/takuoki/gsheets/sheets"
 )
 
 // Sheet is a sheet of google spreadsheets.
@@ -18,13 +20,13 @@ func NewSheet(t *testing.T, values [][]interface{}) *Sheet {
 }
 
 // Rows returns rows which the sheet has.
-func (s *Sheet) Rows() []Row {
+func (s *Sheet) Rows() []sheets.Row {
 	if s == nil {
 		return nil
 	}
-	rs := make([]Row, len(s.values))
+	rs := make([]sheets.Row, len(s.values))
 	for i, r := range s.values {
-		rs[i] = Row{values: r}
+		rs[i] = &Row{values: r}
 	}
 	return rs
 }

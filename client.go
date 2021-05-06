@@ -51,15 +51,15 @@ func new(ctx context.Context, credentials, token string, initialClient *Client) 
 
 	config, err := google.ConfigFromJSON([]byte(credentials), initialClient.scope)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to parse json to config: %v", err)
+		return nil, fmt.Errorf("unable to parse json to config: %v", err)
 	}
 	tok := &oauth2.Token{}
 	if err := json.NewDecoder(strings.NewReader(token)).Decode(tok); err != nil {
-		return nil, fmt.Errorf("Unable to parse json to token: %v", err)
+		return nil, fmt.Errorf("unable to parse json to token: %v", err)
 	}
 	srv, err := sheets.New(config.Client(ctx, tok))
 	if err != nil {
-		return nil, fmt.Errorf("Unable to retrieve Sheets client: %v", err)
+		return nil, fmt.Errorf("unable to retrieve Sheets client: %v", err)
 	}
 
 	initialClient.credentials = credentials
@@ -83,7 +83,7 @@ func NewForCLI(ctx context.Context, authFile string, opts ...ClientOption) (*Cli
 
 	cb, err := ioutil.ReadFile(authFile)
 	if err != nil {
-		return nil, fmt.Errorf("Unable to read client secret file: %v", err)
+		return nil, fmt.Errorf("unable to read client secret file: %v", err)
 	}
 
 	tokenFile := "token.json"
@@ -96,7 +96,7 @@ func NewForCLI(ctx context.Context, authFile string, opts ...ClientOption) (*Cli
 		// if there are no token file, get from Web
 		config, err := google.ConfigFromJSON(cb, client.scope)
 		if err != nil {
-			return nil, fmt.Errorf("Unable to parse client secret file to config: %v", err)
+			return nil, fmt.Errorf("unable to parse client secret file to config: %v", err)
 		}
 
 		authURL := config.AuthCodeURL("state-token", oauth2.AccessTypeOffline)
@@ -105,12 +105,12 @@ func NewForCLI(ctx context.Context, authFile string, opts ...ClientOption) (*Cli
 
 		var authCode string
 		if _, err := fmt.Scan(&authCode); err != nil {
-			return nil, fmt.Errorf("Unable to read authorization code: %v", err)
+			return nil, fmt.Errorf("unable to read authorization code: %v", err)
 		}
 
-		tok, err := config.Exchange(oauth2.NoContext, authCode)
+		tok, err := config.Exchange(context.Background(), authCode)
 		if err != nil {
-			return nil, fmt.Errorf("Unable to retrieve token from web: %v", err)
+			return nil, fmt.Errorf("unable to retrieve token from web: %v", err)
 		}
 
 		b := &bytes.Buffer{}
@@ -122,7 +122,7 @@ func NewForCLI(ctx context.Context, authFile string, opts ...ClientOption) (*Cli
 		f, err := os.OpenFile(tokenFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 		defer f.Close()
 		if err != nil {
-			return nil, fmt.Errorf("Unable to cache oauth token: %v", err)
+			return nil, fmt.Errorf("unable to cache oauth token: %v", err)
 		}
 		fmt.Fprint(f, token)
 	}

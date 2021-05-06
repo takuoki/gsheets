@@ -12,7 +12,7 @@ func (c *Client) GetTitle(ctx context.Context, spreadsheetID string) (string, er
 	if resp == nil {
 		resp, err = c.srv.Spreadsheets.Get(spreadsheetID).Context(ctx).Do()
 		if err != nil {
-			return "", fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+			return "", fmt.Errorf("unable to retrieve data from sheet: %v", err)
 		}
 		setCache(ctx, resp, srvNameSpreadsheets, spreadsheetID)
 	}
@@ -27,7 +27,7 @@ func (c *Client) GetSheetNames(ctx context.Context, spreadsheetID string) ([]str
 	if resp == nil {
 		resp, err = c.srv.Spreadsheets.Get(spreadsheetID).Context(ctx).Do()
 		if err != nil {
-			return nil, fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+			return nil, fmt.Errorf("unable to retrieve data from sheet: %v", err)
 		}
 		setCache(ctx, resp, srvNameSpreadsheets, spreadsheetID)
 	}
@@ -47,7 +47,7 @@ func (c *Client) GetSheet(ctx context.Context, spreadsheetID, sheetName string) 
 	if resp == nil {
 		resp, err = c.srv.Spreadsheets.Values.Get(spreadsheetID, sheetName).Context(ctx).Do()
 		if err != nil {
-			return nil, fmt.Errorf("Unable to retrieve data from sheet: %v", err)
+			return nil, fmt.Errorf("unable to retrieve data from sheet: %v", err)
 		}
 		setCache(ctx, resp, srvNameSpreadsheetsValues, spreadsheetID, sheetName)
 	}

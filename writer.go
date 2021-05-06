@@ -24,7 +24,7 @@ func (c *Client) Update(ctx context.Context, spreadsheetID, sheetName string, ro
 
 	_, err := c.srv.Spreadsheets.Values.BatchUpdate(spreadsheetID, req).Context(ctx).Do()
 	if err != nil {
-		return fmt.Errorf("Unable to update sheet: %v", err)
+		return fmt.Errorf("unable to update sheet: %v", err)
 	}
 
 	return nil
@@ -57,7 +57,7 @@ func (c *Client) BatchUpdate(ctx context.Context, spreadsheetID string, updateVa
 
 	_, err := c.srv.Spreadsheets.Values.BatchUpdate(spreadsheetID, req).Context(ctx).Do()
 	if err != nil {
-		return fmt.Errorf("Unable to update sheet: %v", err)
+		return fmt.Errorf("unable to update sheet: %v", err)
 	}
 
 	return nil
