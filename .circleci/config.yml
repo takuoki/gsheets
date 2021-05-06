@@ -16,8 +16,10 @@ jobs:
       - run:
           name: Check
           command: |
-            echo "--- echo $HOME ---"
+            echo '--- echo $HOME ---'
             echo $HOME
+            pwd
+            ls -la
       - checkout
       # golint
       - restore_cache:
