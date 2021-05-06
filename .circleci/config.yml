@@ -13,13 +13,6 @@ jobs:
   build:
     executor: go-116
     steps:
-      - run:
-          name: Check
-          command: |
-            echo '--- echo $HOME ---'
-            echo $HOME
-            pwd
-            ls ~/ -la
       - checkout
       # golint
       - restore_cache:
