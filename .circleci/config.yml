@@ -1,9 +1,9 @@
 version: 2.1
 
 executors:
-  go-111:
+  go-116:
     docker:
-      - image: circleci/golang:1.11
+      - image: circleci/golang:1.16
     working_directory: /go/src/github.com/takuoki/gsheets
 
 orbs:
@@ -11,13 +11,9 @@ orbs:
 
 jobs:
   build:
-    executor: go-111
+    executor: go-116
     steps:
       - checkout
-      - run:
-          name: Set env
-          command: |
-            echo 'export GO111MODULE=on' >> $BASH_ENV
       # golint
       - restore_cache:
           keys:

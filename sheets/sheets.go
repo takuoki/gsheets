@@ -8,7 +8,7 @@ type Sheet interface {
 	Value(row, clm int) string
 }
 
-// Sheet is a simple row interface.
+// Row is a simple row interface.
 type Row interface {
 	Value(clm int) string
 }
